@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "09e5f97f-c9df-40d9-a67c-be32d9d6b11b",
+		"name": "Student App",
+		"description": "This is some testing description over collection level",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17649738"
+	},
+	"item": [
+		{
+			"name": "Student List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/student/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"student",
+						"list"
+					]
+				},
+				"description": "This is some desc over request level"
+			},
+			"response": []
+		},
+		{
+			"name": "New Student Creation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"firstName\": \"{{firstName}}\",\n        \"lastName\": \"{{lastName}}\",\n        \"email\": \"{{email}}\",\n        \"programme\": \"Computer Science\",\n        \"courses\": [\n            \"Calculus\",\n            \"Algorithms\",\n            \"Software Development\",\n            \"Ethics\"\n        ]\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/student",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Partial Info Using Patch Method",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"ABCDEF@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/student/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"student",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User Info Using PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"AB\",\n    \"lastName\": \"CD\",\n    \"email\": \"ABCDEFG@gmail.com\",\n    \"programme\": \"Computer Science\",\n    \"courses\": [\n        \"Calculus\",\n        \"Algorithms\",\n        \"Software Development\",\n        \"EF\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/student/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"student",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Student Record Using Delete Method",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/student/99",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"student",
+						"99"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Info like content-length using HEAD",
+			"request": {
+				"method": "HEAD",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/student/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"student",
+						"list"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
