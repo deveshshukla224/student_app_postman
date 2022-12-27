@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "e72d0d3a-acb7-4cad-931f-556cd83a81ef",
+		"name": "Git_Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check Fail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "231208e5-7ca6-468b-87fa-c8ebb5946f99",
+						"exec": [
+							"pm.test(\"Health Check should fail\",()=>{",
+							"    pm.response.to.have.status(401)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "1d869db0-6bce-4e37-8c3d-4d55527ef9c6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/"
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check and APIKey Test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "36e67629-f822-4402-b5c9-15d3a14c5f94",
+						"exec": [
+							"pm.test(\"Health Check should pass\",()=>{",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "e4842dbf-f973-48f2-83cb-7d0709c292a8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{x-api-key}}",
+						"type": "text"
+					}
+				],
+				"url": "http://localhost:3000/"
+			},
+			"response": []
+		},
+		{
+			"name": "Register a user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "87642ea3-e931-4d98-8a14-2ecf4a598d49",
+						"exec": [
+							"pm.test(\"Request Body Type check\",()=>",
+							"{",
+							"    if(pm.request.body.options.raw.language=='json')",
+							"    {",
+							"        console.log(\"body type is good to go\")",
+							"    }",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0e09e678-e480-4589-8925-948ce54fb12f",
+						"exec": [
+							"pm.test(\"setting email and password as varaible\",()=>{",
+							"const reqBody =JSON.parse(request.data)",
+							"pm.environment.set(\"email\",reqBody['email'])",
+							"pm.environment.set(\"password\",reqBody['password'])",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "94ab483c-f5bd-4df3-8903-df6cd4537e88",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"defg@gmail.com\",\n  \"password\": \"defg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/api/users/register"
+			},
+			"response": []
+		},
+		{
+			"name": "Login and get a token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "35aa983a-829d-4abc-9cf0-5f1f89c09679",
+						"exec": [
+							"pm.test(\"login attempt sucess\",()=>{",
+							"    pm.environment.set(\"token\",pm.response.json().data.token)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "31189d70-1645-48b8-97a0-7bb0702e0af7",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/api/users/tokens"
+			},
+			"response": []
+		},
+		{
+			"name": "Get list of all movies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f5b47e9d-e8aa-401a-a96f-8c50a5d0d6ca",
+						"exec": [
+							"pm.test(\"setting id for movie fetching\",()=>{",
+							"    pm.environment.set(\"id\",pm.response.json().data[0]._id)",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "87463989-d571-4743-aa92-81e2c1a2b8a9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": "http://localhost:3000/api/movies"
+			},
+			"response": []
+		},
+		{
+			"name": "Add a movie",
+			"_postman_id": "327db1c5-3708-48e4-915d-0767caa68890",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Movie Ef\",\n  \"year\": 2005\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/api/movies"
+			},
+			"response": []
+		},
+		{
+			"name": "Get a specific movie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "74c78ac6-4ff6-4f8a-b37b-04de1aa4acc7",
+						"exec": [
+							"pm.test(\"Status code for specific Movie is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "c8af0c68-5445-48cf-ae8d-6a3701d2d5d9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/api/movies/{{id}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a movie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "accd03e5-537f-45c2-b334-e4d71c815487",
+						"exec": [
+							"pm.test(\"Deletion Done\",()=>{",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "be9eab7f-4b38-4d3e-9f76-a3c70374b837",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:3000/api/movies/{{id}}"
+			},
+			"response": []
+		}
+	]
+}
